@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="phone-frame">
+        <div class="phone-screen">
+
+            <!-- Lock Screen Parent View -->
+            <div id="lockScreen" class="screen-view active">
+                
+                <!-- Layer 1: Main Lock Screen Wallpaper & iOS Layout -->
+                <div id="lockWallpaperLayer" class="lock-layer active">
+                    <div class="lock-content-wrapper">
+                        <div class="date-widget" id="date">Mon, 2 Nov</div>
+                        <h1 class="time-display ios-lock-time" id="clock">12:00</h1>
+                    </div>
+                    
+                    <!-- Bottom Flashlight & Camera Shortcuts -->
+                    <div class="lock-shortcuts">
+                        <button class="shortcut-btn" aria-label="Flashlight">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M6 2h12v2H6V2zm1 3h10v2H7V5zm1.5 3h7l1 13H7.5l1-13zm3.5 3v5h1v-5h-1z"/></svg>
+                        </button>
+                        <button class="shortcut-btn" aria-label="Camera">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M4 6h3l1.5-2h7L17 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm8 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Layer 2: Passcode Keypad View -->
+                <div id="passcodeLayer" class="lock-layer">
+                    <div class="lock-header compact">
+                        <p class="passcode-label">Enter Passcode</p>
+                    </div>
+
+                    <div class="lock-bottom">
+                        <p class="error-msg" id="errorMsg"></p>
+                        <div class="passcode-dots">
+                            <div class="dot" id="dot1"></div>
+                            <div class="dot" id="dot2"></div>
+                            <div class="dot" id="dot3"></div>
+                            <div class="dot" id="dot4"></div>
+                        </div>
+
+                        <!-- Keypad with Transparent Glass Style -->
+                        <div class="keypad">
+                            <button class="key" onclick="pressKey('1')">
+                                <span class="num">1</span>
+                            </button>
+                            <button class="key" onclick="pressKey('2')">
+                                <span class="num">2</span>
+                                <span class="sub">A B C</span>
+                            </button>
+                            <button class="key" onclick="pressKey('3')">
+                                <span class="num">3</span>
+                                <span class="sub">D E F</span>
+                            </button>
+
+                            <button class="key" onclick="pressKey('4')">
+                                <span class="num">4</span>
+                                <span class="sub">G H I</span>
+                            </button>
+                            <button class="key" onclick="pressKey('5')">
+                                <span class="num">5</span>
+                                <span class="sub">J K L</span>
+                            </button>
+                            <button class="key" onclick="pressKey('6')">
+                                <span class="num">6</span>
+                                <span class="sub">M N O</span>
+                            </button>
+
+                            <button class="key" onclick="pressKey('7')">
+                                <span class="num">7</span>
+                                <span class="sub">P Q R S</span>
+                            </button>
+                            <button class="key" onclick="pressKey('8')">
+                                <span class="num">8</span>
+                                <span class="sub">T U V</span>
+                            </button>
+                            <button class="key" onclick="pressKey('9')">
+                                <span class="num">9</span>
+                                <span class="sub">W X Y Z</span>
+                            </button>
+
+                            <button class="key empty"></button>
+                            <button class="key" onclick="pressKey('0')">
+                                <span class="num">0</span>
+                            </button>
+                            <button class="key empty"></button>
+                        </div>
+
+                        <!-- Bottom Action Row -->
+                        <div class="passcode-footer">
+                            <button class="footer-btn" onclick="alert('Emergency Call')">Emergency</button>
+                            <button class="footer-btn" onclick="cancelPasscode()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Screen View -->
+            <div id="homeScreen" class="screen-view">
+                <div class="top-bar">
+                    <button class="lock-btn" onclick="lockPhone()">Lock</button>
+                </div>
+                <div class="app-grid">
+                    <div class="app-icon" onclick="openApp('notesApp')">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150" class="icon-img" alt="Notes">
+                        <span>Notes</span>
+                    </div>
+                    <div class="app-icon" onclick="openApp('photosApp')">
+                        <img src="IMG_1515.jpeg" class="icon-img" alt="Photos">
+                        <span>Photos</span>
+                    </div>
+                    <div class="app-icon" onclick="openApp('instaApp')">
+                        <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?w=150" class="icon-img" alt="Social">
+                        <span>Feed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 1: Notes -->
+            <div id="notesApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Notes</h3>
+                </div>
+                <div class="app-content">
+                    <textarea id="noteInput" placeholder="Type a note..."></textarea>
+                    <button class="save-btn" onclick="saveNote()">Save Note</button>
+                </div>
+            </div>
+
+            <!-- App 2: Photos -->
+            <div id="photosApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Photos</h3>
+                </div>
+                <div class="app-content">
+                    <div class="photo-gallery">
+                        <img src="IMG_1515.jpeg" alt="Memory">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Beach">
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 3: Feed -->
+            <div id="instaApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Feed</h3>
+                </div>
+                <div class="app-content">
+                    <div class="tweet-card">
+                        <div class="post-header">
+                            <div class="avatar"></div>
+                            <strong>Wumuti</strong>
+                        </div>
+                        <p>Loving this interactive iPhone prototype build!</p>
+                        <img src="IMG_1515.jpeg" class="post-img" alt="Post">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
