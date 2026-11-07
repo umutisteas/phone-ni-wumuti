@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="phone-frame">
+        <div class="phone-screen">
+
+            <!-- Lock Screen Parent View -->
+            <div id="lockScreen" class="screen-view active">
+                
+                <!-- Layer 1: Main Lock Screen Wallpaper & iOS Layout -->
+                <div id="lockWallpaperLayer" class="lock-layer active">
+                    <div class="lock-content-wrapper">
+                        <div class="date-widget" id="date">Mon, 2 Nov</div>
+                        <h1 class="time-display ios-lock-time" id="clock">12:00</h1>
+                    </div>
+                    
+                    <!-- Bottom Flashlight & Camera Shortcuts -->
+                    <div class="lock-shortcuts">
+                        <button class="shortcut-btn" aria-label="Flashlight">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M6 2h12v2H6V2zm1 3h10v2H7V5zm1.5 3h7l1 13H7.5l1-13zm3.5 3v5h1v-5h-1z"/></svg>
+                        </button>
+                        <button class="shortcut-btn" aria-label="Camera" onclick="openApp('cameraApp')">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M4 6h3l1.5-2h7L17 6h3a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm8 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Layer 2: Passcode Keypad View -->
+                <div id="passcodeLayer" class="lock-layer">
+                    <div class="lock-header compact">
+                        <p class="passcode-label">Enter Passcode</p>
+                    </div>
+
+                    <div class="lock-bottom">
+                        <p class="error-msg" id="errorMsg"></p>
+                        <div class="passcode-dots">
+                            <div class="dot" id="dot1"></div>
+                            <div class="dot" id="dot2"></div>
+                            <div class="dot" id="dot3"></div>
+                            <div class="dot" id="dot4"></div>
+                        </div>
+
+                        <!-- Keypad -->
+                        <div class="keypad">
+                            <button class="key" onclick="pressKey('1')"><span class="num">1</span></button>
+                            <button class="key" onclick="pressKey('2')"><span class="num">2</span><span class="sub">A B C</span></button>
+                            <button class="key" onclick="pressKey('3')"><span class="num">3</span><span class="sub">D E F</span></button>
+
+                            <button class="key" onclick="pressKey('4')"><span class="num">4</span><span class="sub">G H I</span></button>
+                            <button class="key" onclick="pressKey('5')"><span class="num">5</span><span class="sub">J K L</span></button>
+                            <button class="key" onclick="pressKey('6')"><span class="num">6</span><span class="sub">M N O</span></button>
+
+                            <button class="key" onclick="pressKey('7')"><span class="num">7</span><span class="sub">P Q R S</span></button>
+                            <button class="key" onclick="pressKey('8')"><span class="num">8</span><span class="sub">T U V</span></button>
+                            <button class="key" onclick="pressKey('9')"><span class="num">9</span><span class="sub">W X Y Z</span></button>
+
+                            <button class="key center-zero" onclick="pressKey('0')"><span class="num">0</span></button>
+                        </div>
+
+                        <!-- Bottom Action Row -->
+                        <div class="passcode-footer">
+                            <button class="footer-btn" onclick="alert('Emergency Call')">Emergency</button>
+                            <button class="footer-btn" onclick="cancelPasscode()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Screen View -->
+            <div id="homeScreen" class="screen-view">
+                <div class="top-bar">
+                    <button class="lock-btn" onclick="lockPhone()">Lock</button>
+                </div>
+
+                <div class="home-layout-container">
+                    
+                    <!-- Row 1: Top Left Apps + Top Right Small Widget -->
+                    <div class="home-row">
+                        <div class="app-quad-grid">
+                            <div class="app-icon" onclick="openApp('photosApp')">
+                                <img src="IMG_1594.jpeg" class="icon-img" alt="Photos">
+                                <span>Photos</span>
+                            </div>
+                            <div class="app-icon" onclick="openApp('gmailApp')">
+                                <img src="IMG_1595.jpeg" class="icon-img" alt="Gmail">
+                                <span>Gmail</span>
+                            </div>
+                            <div class="app-icon" onclick="openApp('clockApp')">
+                                <img src="IMG_1596.jpeg" class="icon-img" alt="Clock">
+                                <span>Clock</span>
+                            </div>
+                            <div class="app-icon" onclick="openApp('calendarApp')">
+                                <img src="IMG_1599.jpeg" class="icon-img" alt="Calendar">
+                                <span>Calendar</span>
+                            </div>
+                        </div>
+
+                        <!-- Top Right Small Widget -->
+                        <div class="square-widget">
+                            <img src="IMG_1612.jpeg" alt="Widget Picture">
+                            <span class="widget-label">Widgetsmith</span>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Middle Wide Medium Widget Banner -->
+                    <div class="banner-widget">
+                        <img src="IMG_1615.jpeg" alt="Banner Widget">
+                        <span class="widget-label">Widgetsmith</span>
+                    </div>
+
+                    <!-- Row 3: Bottom Left Small Widget + Bottom Right Apps -->
+                    <div class="home-row">
+                        <!-- Bottom Left Small Widget -->
+                        <div class="square-widget">
+                            <img src="IMG_1614.jpeg" alt="Widget Picture">
+                            <span class="widget-label">Widgetsmith</span>
+                        </div>
+
+                        <div class="app-quad-grid">
+                            <div class="app-icon" onclick="openApp('notesApp')">
+                                <img src="IMG_1598.jpeg" class="icon-img" alt="Notes">
+                                <span>Notes</span>
+                            </div>
+                            <div class="app-icon" onclick="openApp('spotifyApp')">
+                                <img src="IMG_1600.jpeg" class="icon-img" alt="Spotify">
+                                <span>Spotify</span>
+                            </div>
+                            <div class="app-icon" onclick="openApp('robloxApp')">
+                                <img src="IMG_1602.jpeg" class="icon-img" alt="Roblox">
+                                <span>Roblox</span>
+                            </div>
+                            <div class="app-icon" onclick="openApp('instaApp')">
+                                <img src="IMG_1601.jpeg" class="icon-img" alt="Instagram">
+                                <span>Instagram</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Glass Dock -->
+                <div class="home-dock">
+                    <div class="dock-icon" onclick="openApp('phoneApp')">
+                        <img src="IMG_1603.jpeg" class="icon-img" alt="Phone">
+                    </div>
+                    <div class="dock-icon" onclick="openApp('cameraApp')">
+                        <img src="IMG_1604.jpeg" class="icon-img" alt="Camera">
+                    </div>
+                    <div class="dock-icon" onclick="openApp('messagesApp')">
+                        <img src="IMG_1597.jpeg" class="icon-img" alt="Messages">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fullscreen App Pages -->
+
+            <!-- Notes -->
+            <div id="notesApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Notes</h3>
+                </div>
+                <div class="app-content">
+                    <textarea id="noteInput" placeholder="Type a note..."></textarea>
+                    <button class="save-btn" onclick="saveNote()">Save Note</button>
+                </div>
+            </div>
+
+            <!-- Photos App -->
+            <div id="photosApp" class="screen-view app-fullscreen light-photos-app">
+                
+                <!-- Scrollable Content Wrapper -->
+                <div class="ios-photos-content">
+                    <div class="ios-photos-glass-header">
+                        <h2 class="photos-main-title-light">Library</h2>
+                        <button class="pill-select-btn-light">Select</button>
+                    </div>
+
+                    <div class="photo-gallery-grid">
+                        <div class="photo-item"><img src="IMG_1617.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1618.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1619.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1620.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1621.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1622.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1623.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1624.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_0986.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1626.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1627.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1628.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1629.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1630.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1631.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1632.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1633.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1634.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                        <div class="photo-item"><img src="IMG_1635.jpeg" alt="Photo" onclick="openLightbox(this.src)"></div>
+                    </div>
+                </div>
+
+                <!-- Floating Bottom Tab Bar (Pinned outside scroll container) -->
+                <div class="ios-photos-floating-bar">
+                    <div class="floating-icon-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#007aff"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    </div>
+                    <div class="floating-pills-group">
+                        <button class="sub-tab-pill">Years</button>
+                        <button class="sub-tab-pill">Months</button>
+                        <button class="sub-tab-pill active">All</button>
+                    </div>
+                    <div class="floating-icon-btn">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="black" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                </div>
+
+                <!-- Lightbox Fullscreen Photo Modal -->
+                <div id="photoLightbox" class="lightbox-modal" onclick="closeLightbox()">
+                    <img id="lightboxImg" src="" alt="Zoomed Photo">
+                </div>
+            </div>
+
+            <!-- Gmail -->
+            <div id="gmailApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Gmail</h3>
+                </div>
+                <div class="app-content app-list">
+                    <div class="mail-item">
+                        <strong>Google Account</strong>
+                        <p>Security Alert for your device</p>
+                    </div>
+                    <div class="mail-item">
+                        <strong>GitHub</strong>
+                        <p>Your repository KTUAZON was updated</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clock -->
+            <div id="clockApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Clock</h3>
+                </div>
+                <div class="app-content center-app">
+                    <h2 id="appClock">00:00:00</h2>
+                    <p>Alarm set for 7:00 AM</p>
+                </div>
+            </div>
+
+            <!-- Calendar -->
+            <div id="calendarApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Calendar</h3>
+                </div>
+                <div class="app-content center-app">
+                    <h2 id="calendarToday">Today</h2>
+                    <p>No upcoming events today.</p>
+                </div>
+            </div>
+
+            <!-- Spotify -->
+            <div id="spotifyApp" class="screen-view app-fullscreen dark-app">
+                <div class="app-header dark-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Spotify</h3>
+                </div>
+                <div class="app-content center-app">
+                    <div class="music-card">
+                        <div class="album-art">🎧</div>
+                        <h4>Now Playing</h4>
+                        <p>Liquid Glass Beats</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roblox -->
+            <div id="robloxApp" class="screen-view app-fullscreen dark-app">
+                <div class="app-header dark-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Roblox</h3>
+                </div>
+                <div class="app-content center-app">
+                    <div class="game-card">
+                        <span class="game-logo">🎮</span>
+                        <h4>Welcome to Roblox</h4>
+                        <button class="play-btn">Play Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram -->
+            <div id="instaApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Instagram</h3>
+                </div>
+                <div class="app-content">
+                    <div class="insta-post">
+                        <div class="post-header">
+                            <div class="avatar"></div>
+                            <strong>Profile</strong>
+                        </div>
+                        <img src="IMG_1532.jpeg" class="post-img" alt="Post">
+                        <p class="post-caption"><strong>Profile</strong> Custom iOS 26 UI setup ✨</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone App -->
+            <div id="phoneApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Phone</h3>
+                </div>
+                <div class="app-content center-app">
+                    <p>Recent Calls: None</p>
+                </div>
+            </div>
+
+            <!-- Camera App -->
+            <div id="cameraApp" class="screen-view app-fullscreen dark-app">
+                <div class="app-header dark-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Camera</h3>
+                </div>
+                <div class="app-content center-app">
+                    <div class="album-art">📸</div>
+                    <p>Camera Viewfinder Active</p>
+                </div>
+            </div>
+
+            <!-- Messages App -->
+            <div id="messagesApp" class="screen-view app-fullscreen">
+                <div class="app-header">
+                    <button class="back-btn" onclick="closeApp()">‹ Back</button>
+                    <h3>Messages</h3>
+                </div>
+                <div class="app-content app-list">
+                    <div class="mail-item">
+                        <strong>System</strong>
+                        <p>Welcome to your interactive iOS prototype!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
