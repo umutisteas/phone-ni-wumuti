@@ -1,0 +1,790 @@
+/* Base Reset & Body */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Phone Frame Container */
+#phoneFrame {
+    position: relative;
+    width: 100%;
+    max-width: 414px;
+    height: 100vh;
+    max-height: 896px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* App Fullscreen Views */
+.app-fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: none;
+    flex-direction: column;
+    z-index: 50;
+}
+
+.app-fullscreen.active {
+    display: flex;
+}
+
+/* LOCK SCREEN */
+.lock-screen {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background-image: url('./IMG_1888.jpeg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+.lock-screen.active {
+    display: flex !important;
+}
+
+/* Wallpaper Layer */
+.wallpaper-layer {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 80px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 2;
+}
+
+.wallpaper-layer.active {
+    display: flex !important;
+}
+
+#clock {
+    font-size: 80px;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: -2px;
+}
+
+#date {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    margin-top: -5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.swipe-hint {
+    position: absolute;
+    bottom: 40px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
+}
+
+/* Passcode Layer */
+.passcode-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    z-index: 10;
+}
+
+.passcode-layer.active {
+    display: flex;
+}
+
+.passcode-prompt {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+.passcode-dots {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.dot.filled {
+    background-color: #fff;
+}
+
+#errorMsg {
+    height: 20px;
+    color: #ff453a;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 75px);
+    gap: 16px;
+}
+
+.keypad button {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 28px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.keypad button:active {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* HOME SCREEN */
+.home-screen {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: none;
+    background-image: url('./IMG_1888.jpeg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    padding: 60px 20px 20px 20px;
+    z-index: 10;
+}
+
+.home-screen.active {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-bg {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    margin-bottom: 6px;
+}
+
+.spotify-bg { background: linear-gradient(135deg, #1db954, #121212); }
+.notes-bg { background: linear-gradient(135deg, #ffcc00, #ff9500); }
+.photos-bg { background: linear-gradient(135deg, #32d74b, #007aff); }
+
+.app-icon span {
+    color: #fff;
+    font-size: 12px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* SPOTIFY APP */
+.spotify-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    background-color: #121212;
+    color: #fff;
+}
+
+.spotify-view.active {
+    display: flex;
+}
+
+.spotify-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 16px 120px 16px;
+}
+
+.playlist-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.playlist-cover-main {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    margin-bottom: 16px;
+    object-fit: cover;
+}
+
+.playlist-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.playlist-header p {
+    font-size: 14px;
+    color: #b3b3b3;
+    margin-bottom: 8px;
+}
+
+.playlist-owner-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.owner-dot {
+    width: 16px;
+    height: 16px;
+    background-color: #1db954;
+    border-radius: 50%;
+}
+
+/* Tracklist */
+.tracklist-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.track-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.track-row:active {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.track-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.track-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.track-title {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.track-artist {
+    font-size: 13px;
+    color: #b3b3b3;
+}
+
+.track-options-btn {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+/* Mini Player */
+.spotify-mini-player {
+    position: absolute;
+    bottom: 60px;
+    left: 8px;
+    right: 8px;
+    height: 56px;
+    background-color: #282828;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.mini-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.mini-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mini-info span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#miniTitle {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#miniArtist {
+    font-size: 11px;
+    color: #b3b3b3;
+}
+
+.mini-play-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+}
+
+/* Bottom Nav */
+.spotify-bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #282828;
+}
+
+.spotify-bottom-nav button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Expanded Player View */
+.player-fullscreen-view {
+    background: linear-gradient(180deg, #53383b 0%, #121212 60%);
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.player-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.player-top-bar button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.player-artwork-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.player-artwork-container img {
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.player-track-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#playerTitle {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#playerArtist {
+    font-size: 14px;
+    color: #b3b3b3;
+}
+
+.player-progress-container {
+    margin-bottom: 20px;
+}
+
+.player-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 2px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+#playerProgressFill {
+    height: 100%;
+    background-color: #fff;
+}
+
+.time-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #b3b3b3;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 30px;
+}
+
+.player-controls button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.main-play-btn {
+    width: 64px;
+    height: 64px;
+    background-color: #fff !important;
+    color: #000 !important;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* NOTES APP */
+.notes-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    color: #fff;
+    display: none;
+    flex-direction: column;
+}
+
+.notes-view.active {
+    display: flex;
+}
+
+.notes-header {
+    padding: 50px 20px 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.notes-header h2 {
+    font-size: 34px;
+    font-weight: 700;
+}
+
+#notesCount {
+    color: #888;
+    font-size: 14px;
+}
+
+.notes-list-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px;
+}
+
+.notes-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 16px 0 8px 0;
+}
+
+.note-item-row {
+    background-color: #1c1c1e;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.note-item-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.note-item-preview-wrapper {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    color: #8e8e93;
+}
+
+.note-item-snippet {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notes-footer-bar {
+    height: 60px;
+    background-color: #1c1c1e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.notes-footer-bar button {
+    background: none;
+    border: none;
+    color: #0a84ff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.notes-editor-container {
+    background-color: #000;
+    padding: 50px 20px 20px 20px;
+}
+
+.notes-editor-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.notes-editor-top button {
+    background: none;
+    border: none;
+    color: #0a84ff;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+#activeNoteDate {
+    color: #888;
+    font-size: 12px;
+}
+
+#noteTitleInput {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    width: 100%;
+    margin-bottom: 12px;
+    outline: none;
+}
+
+#noteBodyInput {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    flex: 1;
+    resize: none;
+    outline: none;
+}
+
+/* PHOTOS APP */
+#photosApp {
+    background-color: #000;
+    color: #fff;
+}
+
+.photos-header {
+    padding: 50px 20px 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2c2c2e;
+}
+
+.photos-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.photos-header button {
+    background: none;
+    border: none;
+    color: #0a84ff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.photos-grid-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    overflow-y: auto;
+}
+
+.photo-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    z-index: 2000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+#lightboxImg {
+    max-width: 90%;
+    max-height: 70%;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.lightbox-thumbs-row {
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    max-width: 90%;
+    padding: 10px;
+}
+
+.lightbox-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.lightbox-thumb.active {
+    opacity: 1;
+    border: 2px solid #0a84ff;
+}
