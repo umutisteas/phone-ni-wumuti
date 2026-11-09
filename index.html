@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS 26 Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Phone Container -->
+    <div id="phoneFrame">
+
+        <!-- LOCK SCREEN -->
+        <div id="lockScreen" class="lock-screen active">
+            <div id="lockWallpaperLayer" class="wallpaper-layer active">
+                <div id="clock">12:00</div>
+                <div id="date">Mon, Nov 7</div>
+                <div class="swipe-hint">Swipe up to unlock</div>
+            </div>
+
+            <div id="passcodeLayer" class="passcode-layer">
+                <div class="passcode-prompt">Enter Passcode</div>
+                <div class="passcode-dots">
+                    <div class="dot" id="dot1"></div>
+                    <div class="dot" id="dot2"></div>
+                    <div class="dot" id="dot3"></div>
+                    <div class="dot" id="dot4"></div>
+                </div>
+                <div id="errorMsg"></div>
+                <div class="keypad">
+                    <button onclick="pressKey('1')">1</button>
+                    <button onclick="pressKey('2')">2</button>
+                    <button onclick="pressKey('3')">3</button>
+                    <button onclick="pressKey('4')">4</button>
+                    <button onclick="pressKey('5')">5</button>
+                    <button onclick="pressKey('6')">6</button>
+                    <button onclick="pressKey('7')">7</button>
+                    <button onclick="pressKey('8')">8</button>
+                    <button onclick="pressKey('9')">9</button>
+                    <button onclick="cancelPasscode()">Cancel</button>
+                    <button onclick="pressKey('0')">0</button>
+                    <button onclick="lockPhone()">🔒</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOME SCREEN -->
+        <div id="homeScreen" class="home-screen">
+            <div class="app-grid">
+                <div class="app-icon" onclick="openApp('spotifyApp')">
+                    <div class="icon-bg spotify-bg">🎵</div>
+                    <span>Spotify</span>
+                </div>
+                <div class="app-icon" onclick="openApp('notesApp')">
+                    <div class="icon-bg notes-bg">📝</div>
+                    <span>Notes</span>
+                </div>
+                <div class="app-icon" onclick="openApp('photosApp')">
+                    <div class="icon-bg photos-bg">🖼️</div>
+                    <span>Photos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPOTIFY APP -->
+        <div id="spotifyApp" class="app-fullscreen">
+            <!-- Spotify Main View -->
+            <div id="spotifyMainView" class="spotify-view active" onscroll="handleSpotifyScroll()">
+                <div id="spotifyScrollArea" class="spotify-scroll-content">
+                    
+                    <!-- Playlist Header -->
+                    <div class="playlist-header">
+                        <img id="playlistHeaderImg" src="./IMG_1888.jpeg" alt="Playlist Cover" class="playlist-cover-main">
+                        <h1 id="playlistTitle">me+him</h1>
+                        <p id="playlistDescription">I love rui</p>
+                        <div class="playlist-owner-row">
+                            <span class="owner-dot"></span>
+                            <span id="playlistOwner">kuansumu</span>
+                        </div>
+                    </div>
+
+                    <!-- Tracklist -->
+                    <div id="spotifyTracklist" class="tracklist-container"></div>
+                </div>
+
+                <!-- Mini Player Sticky Bar -->
+                <div class="spotify-mini-player" onclick="expandSpotifyPlayer()">
+                    <img id="miniCoverImg" src="./IMG_1758.jpeg" class="mini-thumb" alt="Cover">
+                    <div class="mini-info">
+                        <span id="miniTitle">Alas Dose</span>
+                        <span id="miniArtist">Cup of Joe</span>
+                    </div>
+                    <button class="mini-play-btn" onclick="event.stopPropagation(); togglePlayPause()">
+                        <svg id="miniPlayIcon" width="16" height="16" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+                    </button>
+                </div>
+
+                <!-- Bottom Navigation Bar -->
+                <div class="spotify-bottom-nav">
+                    <button onclick="closeApp()">🏠 Home</button>
+                    <button onclick="lockPhone()">🔒 Lock</button>
+                </div>
+            </div>
+
+            <!-- Spotify Expanded Player View -->
+            <div id="spotifyPlayerView" class="spotify-view player-fullscreen-view">
+                <div class="player-top-bar">
+                    <button onclick="minimizeSpotifyPlayer()">⌄</button>
+                    <span>me+him</span>
+                    <button>•••</button>
+                </div>
+                <div class="player-artwork-container">
+                    <img id="playerCoverImg" src="./IMG_1758.jpeg" alt="Cover">
+                </div>
+                <div class="player-track-details">
+                    <div>
+                        <h2 id="playerTitle">Alas Dose</h2>
+                        <span id="playerArtist">Cup of Joe</span>
+                    </div>
+                </div>
+                <!-- Progress Bar -->
+                <div class="player-progress-container">
+                    <div class="player-progress-bar"><div id="playerProgressFill" style="width: 0%;"></div></div>
+                    <div class="time-labels">
+                        <span id="currentTimeLabel">0:00</span>
+                        <span id="durationLabel">3:45</span>
+                    </div>
+                </div>
+                <!-- Player Controls -->
+                <div class="player-controls">
+                    <button onclick="prevSong()">⏮</button>
+                    <button class="main-play-btn" onclick="togglePlayPause()">
+                        <svg id="mainPlayIcon" width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+                    </button>
+                    <button onclick="nextSong()">⏭</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTES APP -->
+        <div id="notesApp" class="app-fullscreen">
+            <div id="notesMainView" class="notes-view active">
+                <div class="notes-header">
+                    <h2>Notes</h2>
+                    <span id="notesCount">6 Notes</span>
+                </div>
+                <div id="notesListContainer" class="notes-list-scroll"></div>
+                <div class="notes-footer-bar">
+                    <button onclick="closeApp()">🏠</button>
+                    <button onclick="createNewNote()">✏️ New Note</button>
+                </div>
+            </div>
+            <div id="notesEditorView" class="notes-view notes-editor-container">
+                <div class="notes-editor-top">
+                    <button onclick="returnToNotesList()">‹ Notes</button>
+                    <span id="activeNoteDate">Yesterday at 4:52 PM</span>
+                </div>
+                <input type="text" id="noteTitleInput" placeholder="Title" oninput="autoSaveCurrentNote()">
+                <textarea id="noteBodyInput" placeholder="Start typing..." oninput="autoSaveCurrentNote()"></textarea>
+            </div>
+        </div>
+
+        <!-- PHOTOS APP -->
+        <div id="photosApp" class="app-fullscreen">
+            <div class="photos-header">
+                <h2>Photos</h2>
+                <button onclick="closeApp()">Close</button>
+            </div>
+            <div id="photoGrid" class="photos-grid-container"></div>
+            <!-- Lightbox Modal -->
+            <div id="photoLightbox" class="lightbox-modal" style="display:none;">
+                <button class="lightbox-close" onclick="closeLightbox()">×</button>
+                <img id="lightboxImg" src="" alt="Zoomed">
+                <div id="lightboxThumbnails" class="lightbox-thumbs-row"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
